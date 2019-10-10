@@ -9,19 +9,8 @@ select  SQ_JOBTITLEPAY.nextval into :New.id from dual;
 select  sysdate into :New.RECORDTIME from dual;  
 end;    
  
- 
- 
- 
- 
- 
 alter table jobtitlepayrecord add (aza102 varchar2(200) default '空' );
  
- 
- 
- 
- 
- 
-  
 select 
 t.AZA102, 
 t.azc020,
@@ -34,8 +23,4 @@ t.aza015,
 t.signs
  from jobtitlepayrecord  t  for update;
 
- 
- 
- 
- 
  
