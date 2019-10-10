@@ -1,0 +1,41 @@
+
+-- 职称缴费触发器  id 和 时间自增长
+create or replace trigger jobtitlepayrecord_tb_tri      
+before insert on jobtitlepayrecord  
+ for each row     
+begin      
+select  SQ_JOBTITLEPAY.nextval into :New.id from dual;  
+
+select  sysdate into :New.RECORDTIME from dual;  
+end;    
+ 
+ 
+ 
+ 
+ 
+ 
+alter table jobtitlepayrecord add (aza102 varchar2(200) default '空' );
+ 
+ 
+ 
+ 
+ 
+ 
+  
+select 
+t.AZA102, 
+t.azc020,
+t.azc05v,
+t.aac001,
+t.azc02a,
+t.bzc05y,
+t.aac003,
+t.aza015,
+t.signs
+ from jobtitlepayrecord  t  for update;
+
+ 
+ 
+ 
+ 
+ 
