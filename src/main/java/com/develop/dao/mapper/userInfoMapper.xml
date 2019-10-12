@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.develop.dao.UserInfoDao">
+
+
+
+
+	<!-- 首页 - 根据用户姓名，查询用户信息 and username=#{username} AND username LIKE CONCAT(CONCAT('%',#{username}),'%') 
+		AND username LIKE '%${username}%' -->
+	<select id="queryUsersByName" parameterType="User"
+		resultType="User">
+		select
+		t1.id,
+		t1.username,
+		t1.age,
+		t1.email,
+		t1.addr,
+		t1.pwd,
+		t1.amount,
+		t3.rolename,
+		t3.type
+		from user_info t1
+		left join user_role_relation t2 on
+		t1.id = t2.userid
+		left join role_info t3 on t2.roleid = t3.roleid
+		<if test="username != null">
+			where t1.username LIKE CONCAT(CONCAT('%',#{username}),'%')
+		</if>  
+		order by t1.id desc
+	</select>
+
+
+
+
+	<!-- 校验用户权限 -->
+	<select id="checkUserAuth" parameterType="User"
+		resultType="User">
+		select
+		t1.id,
+		t1.username,
+		t3.rolename,
+		t3.type
+		from user_info t1
+		left join
+		user_role_relation t2 on t1.id = t2.userid
+		left join role_info t3 on
+		t2.roleid = t3.roleid
+		<if test="username != null">
+			and t1.username=#{username}
+		</if>
+		<if test="pwd != null">
+			and t1.pwd=#{pwd}
+		</if>
+		limit 1
+	</select>
+
+	<!-- excel 导出功能 -->
+	<select id="findForExcel" parameterType="User" resultType="User">
+
+		SELECT * FROM user_info where 1=1
+
+		<if test="username != null">
+			AND username LIKE CONCAT(CONCAT('%',#{username}),'%')
+
+		</if>
+
+	</select>
+
+	<!-- 新增用户前，判断该用户是否已存在 -->
+	<select id="isUserExist" parameterType="User" resultType="User">
+
+		SELECT * FROM user_info WHERE 1=1
+
+		<if test="username != null">
+			AND username = #{username}
+		</if>
+		<if test="id != null">
+			AND id = #{id}
+		</if>
+		order by id desc
+		limit 1
+	</select>
+
+
+	<!-- 新增用户 -->
+	<insert id="addUser" parameterType="User">
+
+		insert into user_info
+		(username,pwd,age,addr,email) values
+		(#{username},#{pwd},#{age},#{addr},#{email});
+
+	</insert>
+
+	<!-- 删除用户 -->
+	<delete id="deleteUserById">
+
+		<if test="id != null">
+			delete from user_info where id=#{id}
+		</if>
+
+	</delete>
+
+	<!-- ******************************************测试学习*********************************************** -->
+	<!-- 结果集映射 -->
+	<resultMap type="com.develop.model.TestModel"
+		id="UserMapTest">
+		<id column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="pwd" property="pwd" />
+		<result column="age" property="age" />
+		<association property="role"
+			javaType="com.develop.model.Role">
+
+			<result column="roleid" property="roleid" />
+			<result column="rolename" property="rolename" />
+			<result column="type" property="type" />
+		</association>
+	</resultMap>
+
+	<select id="test" parameterType="User" resultMap="UserMapTest">
+		select
+		t1.*,t3.roleid,t3.rolename,t3.type
+		from
+		user_info t1
+		left join
+		user_role_relation t2 on t1.id =t2.userid
+		left join role_info t3 on
+		t2.roleid = t3.roleid where t1.id in ('49','50')
+	</select>
+
+	<!-- 职称新增 -->
+	<insert id="addJobtitle" parameterType="Model">
+   
+		insert into ka01(aza010,aza011,aza015,aza012,aza013,aza014,aae100,isleaf) values
+		(#{aza010},#{aza011},#{aza015},#{aza012},#{aza013},#{aza014},#{aae100},#{isleaf});
+		 
+	</insert>  
+
+ 
+</mapper>
