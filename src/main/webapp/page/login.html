@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>欢迎界面</title>
+<link rel="import" href="/develop/static/comm.html" id="commplugin">
+</head>
+<body background="/develop/picture/login_world.jpg">
+	<div class="container-fluid">
+		<div class="panel-body" style="margin-top: 12%;">
+			<div class="row"
+				style="margin-top: 10px; margin-left: 37.5%; width: 22.5%; border: #ccc 0px solid; font-size: 10px;">
+				<h3 class="panel-title"
+					style="width: 120px; margin: 10px; margin-left: 109px; font-weight: 900; font-size: 19px; font-style: oblique;">登陆</h3>
+			</div>
+			<form action="/develop/home/checkpage" id="login_formId"
+				method="post">
+
+				<div style="width: 100%; margin-left: 30%;">
+					<div class="row"
+						style="margin-top: -1px; border: #ccc 0px solid; padding-left: 5px; padding: 5px;">
+						<div class="col-xs-4" style="margin-left: -1%;">
+							<div class="myLabel2"
+								style="border-bottom: 0px; margin-left: 27%;">
+								<label class="fc01" style="width: 18%">姓名</label> <input
+									id="username" name="username" />
+							</div>
+						</div>
+					</div>
+					<div class="row"
+						style="margin-top: -1px; border: #ccc 0px solid; padding-left: 5px; padding: 5px;">
+						<div class="col-xs-4" style="margin-left: -1%;">
+							<div class="myLabel2"
+								style="border-bottom: 0px; margin-left: 27%;">
+								<label class="fc01" style="width: 18%">密码</label> <input id=pwd
+									type="password" name="pwd" />
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-4 text-right"
+						style="margin-top: 10px; margin-left: 11%; width: 195px;">
+ 
+						<input type="submit" class="button" value="登陆"
+							style="width: 80px; height: 30px; text-align: center; background-color: #549bd5; color: white; border: none; border-radius: 4px;" />
+
+						<input type="reset" class="button" value="重置"
+							style="width: 80px; height: 30px; text-align: center; background-color: #549bd5; color: white; border: none; border-radius: 4px;" />
+ 
+ 						<p style="margin-top:20px;">没有个人账号？<a href="/develop/page/registeredUser.html">免费注册</a></p>
+ 
+					</div>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

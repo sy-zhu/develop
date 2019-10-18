@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户信息中心</title>
+
+<link rel="import" href="/develop/static/comm.html" id="commplugin">
+</head>
+<body>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" id="closeTitleId" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">注册</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<span style="color: red;">*</span> <label for="addUsernameNew">姓名</label>
+						<input type="text" name="addUsernameNew" class="form-control"
+							id="addUsernameNew" placeholder="姓名">
+					</div>
+					<div class="form-group">
+						<span style="color: red;">*</span> <label for="addPwdNew">密码</label>
+						<input type="text" name="addPwdNew" class="form-control"
+							id="addPwdNew" placeholder="密码">
+					</div>
+					<div class="form-group">
+						<label for="addAgeNew">年龄</label> <input type="text"
+							name="addAgeNew" class="form-control" id="addAgeNew"
+							placeholder="年龄">
+					</div>
+					<div class="form-group">
+						<label for="addAddrNew">地址</label> <input type="text"
+							name="addAddrNew" class="form-control" id="addAddrNew"
+							placeholder="地址">
+					</div>
+					<div class="form-group">
+						<label for="addEmailNew">邮箱</label> <input type="text"
+							name="addEmailNew" class="form-control" id="addEmailNew"
+							placeholder="邮箱">
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="closeUserInfoBtnId2"
+						class="btn btn-default" data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true">关闭</span>
+					</button>
+					<button type="button" id="addUserInfoBtnId2"
+						class="btn btn-primary" data-dismiss="modal">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 编辑******************************end -->
+</body>
+<script type="text/javascript">
+	$(function() {
+		//弹框的样式修改
+		toastr.options = {
+			"closeButton" : false,//显示关闭按钮
+			"debug" : false,//启用debug
+			"positionClass" : "toast-top-center",//弹出的位置
+			"showDuration" : "300",//显示的时间
+			"hideDuration" : "1000",//消失的时间
+			"timeOut" : "3000",//停留的时间
+			"extendedTimeOut" : "1000",//控制时间
+			"showEasing" : "swing",//显示时的动画缓冲方式
+			"hideEasing" : "linear",//消失时的动画缓冲方式
+			"showMethod" : "fadeIn",//显示时的动画方式
+			"hideMethod" : "fadeOut"//消失时的动画方式
+		};
+
+		$("#myModalLabel").text("注册");
+		$('#myModal').modal();
+	});
+
+	//新增用户2
+	$("#addUserInfoBtnId2")
+			.click(
+					function() {
+						var datas = {};
+						datas.username = $("#addUsernameNew").val();
+						datas.pwd = $("#addPwdNew").val();
+						datas.age = $("#addAgeNew").val();
+						datas.addr = $("#addAddrNew").val();
+						datas.email = $("#emailNew").val();
+
+						if (typeof (datas.username) == 'undefined'
+								|| datas.username == '') {
+							toastr.warning('姓名必填');
+							return false;
+						}
+						if (typeof (datas.pwd) == 'undefined'
+								|| datas.pwd == '') {
+							toastr.warning('密码必填');
+							return false;
+						}
+
+						$
+								.ajax({
+									url : "/develop/develop/userMsgRestController/addUser",
+									data : datas,
+									contenttype : "application/x-www-form-urlencoded;charset=utf-8",
+									type : "POST",
+									dataType : "json",
+									success : function(restbody) {
+										var code = restbody.code;
+										if (code == -1) {
+											toastr.info("注册失败，请换个姿势再试一次");
+											setTimeout(
+													"javascript:location.href='/develop/page/registeredUser.html'",
+													1000);
+										} else {
+											toastr.success("注册成功");
+											resetAddUserMsg();
+
+											// 跳转到登陆页面
+
+											// 以下方式直接跳转
+											//window.location.href='/develop';
+											// 以下方式定时跳转
+											setTimeout(
+													"javascript:location.href='/develop'",
+													1000);
+										}
+
+									}
+								});
+
+					});
+
+	//关闭按钮
+	$("#closeUserInfoBtnId2").click(function() {
+		toastr.info("返回登陆首页");
+		setTimeout("javascript:location.href='/develop'", 1000);
+		
+	});
+	//标题头关闭按钮
+	$("#closeTitleId").click(function() {
+		toastr.info("返回登陆首页");
+		setTimeout("javascript:location.href='/develop'", 1000);
+		
+	});
+	function resetAddUserMsg() {
+		$("#addUsernameNew").val("");
+		$("#addPwdNew").val("");
+		$("#addAgeNew").val("");
+		$("#addAddrNew").val("");
+		$("#emailNew").val("");
+	}
+</script>
+</html>
